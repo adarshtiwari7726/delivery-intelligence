@@ -1,0 +1,11 @@
+{
+  "name": "delivery-intelligence",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Amazon Delivery Promise Checker (ASIN + Indian PIN code)",
+  "scripts": {
+    "install:backend": "npm install --prefix backend",
+    "start": "npm run start --prefix backend",
+    "dev": "npm run dev --prefix backend"
+  }
+}

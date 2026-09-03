@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>window.DELIVERY_API_BASE = "http://100.107.158.103:4000";</script>
+<meta charset="UTF-8" />
+<title>Settings · Delivery Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Settings</h1>
+        <p class="page-sub">Marketplace, provider, credentials, cache, and rate-limiting configuration.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">Marketplace</h3>
+      <div class="field" style="max-width:260px;">
+        <label>Marketplace</label>
+        <select id="marketplace"><option value="amazon.in">Amazon.in</option></select>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">Delivery Data Provider</h3>
+      <p style="color:var(--text-dim); font-size:13.5px; margin-top:-6px;">
+        Amazon does not publish a first-party API that returns a PIN-specific delivery-promise date for an
+        arbitrary ASIN. <code class="inline">mock</code> is for UI development only. <code class="inline">paapi</code>
+        gives real availability/price/Prime data from Amazon's own API but no delivery date. <code class="inline">thirdparty</code>
+        is the only mode that can return a real delivery date, via an authorized provider you configure below.
+        See the README for full details.
+      </p>
+      <div id="provider-cards" class="grid grid-3"></div>
+
+      <div class="field" style="max-width:260px; margin-top:16px;">
+        <label>Active Provider</label>
+        <select id="active-provider">
+          <option value="mock">Mock / Demo</option>
+          <option value="paapi">Amazon Product Advertising API</option>
+          <option value="thirdparty">Authorized Third-Party Provider</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">Amazon Product Advertising API Credentials</h3>
+      <div class="form-row">
+        <div class="field"><label>Access Key</label><input type="password" id="paapi-access-key" placeholder="AKIA..." /></div>
+        <div class="field"><label>Secret Key</label><input type="password" id="paapi-secret-key" placeholder="secret" /></div>
+        <div class="field"><label>Partner Tag</label><input type="text" id="paapi-partner-tag" placeholder="yourtag-21" /></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">Third-Party Delivery Provider Credentials</h3>
+      <div class="form-row">
+        <div class="field"><label>API Base URL</label><input type="text" id="tp-base-url" placeholder="https://api.example.com" /></div>
+        <div class="field"><label>API Key</label><input type="password" id="tp-api-key" placeholder="key" /></div>
+        <div class="field"><label>API Secret</label><input type="password" id="tp-api-secret" placeholder="secret (optional)" /></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">Cache</h3>
+      <div class="field" style="max-width:220px;">
+        <label>Cache Duration (minutes)</label>
+        <input type="number" id="cache-duration" min="0" />
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0;">API / Provider Rate Limiting</h3>
+      <div class="form-row">
+        <div class="field"><label>Concurrency</label><input type="number" id="q-concurrency" min="1" max="10" /></div>
+        <div class="field"><label>Requests per Minute</label><input type="number" id="q-rpm" min="1" /></div>
+        <div class="field"><label>Retry Attempts</label><input type="number" id="q-retries" min="0" max="5" /></div>
+        <div class="field"><label>Timeout (ms)</label><input type="number" id="q-timeout" min="1000" /></div>
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="save-settings-btn">Save Settings</button>
+  </main>
+</div>
+<div id="toast-root"></div>
+<script src="js/app.js"></script>
+<script src="js/settings.js"></script>
+<script>renderSidebar('settings.html');</script>
+</body>
+</html>

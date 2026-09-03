@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>window.DELIVERY_API_BASE = "http://100.107.158.103:4000";</script>
+<meta charset="UTF-8" />
+<title>Bulk Checker · Delivery Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="css/style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Bulk Delivery Checker</h1>
+        <p class="page-sub">Check many ASIN + PIN combinations at once, or one ASIN across many PIN codes.</p>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="csv">Bulk ASIN + PIN (Excel/CSV/Paste)</button>
+      <button class="tab-btn" data-tab="asinpins">One ASIN &rarr; Multiple PINs</button>
+    </div>
+
+    <!-- TAB 1: CSV / Excel bulk -->
+    <div id="tab-csv">
+      <div class="card">
+        <div class="form-row">
+          <div class="field" style="flex:2;">
+            <label>Upload Excel / CSV (columns: ASIN, PIN, Quantity)</label>
+            <input type="file" id="file-input" accept=".xlsx,.xls,.csv" />
+          </div>
+          <div class="field" style="flex:0;align-self:flex-end;">
+            <button class="btn" id="download-template">Download Template</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>...or paste rows directly (ASIN, PIN, Quantity — one per line, comma or tab separated)</label>
+          <textarea id="paste-area" placeholder="B0AAA12345, 380001, 1&#10;B0AAA12345, 110001, 1"></textarea>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button class="btn btn-primary" id="parse-btn">Parse Rows</button>
+          <span id="parse-summary" style="color:var(--text-dim); font-size:13px;"></span>
+        </div>
+      </div>
+
+      <div class="card hidden" id="csv-run-card">
+        <div id="csv-dedupe-summary" style="margin-bottom:12px; font-size:13.5px; color:var(--text-dim);"></div>
+        <button class="btn btn-primary" id="check-all-btn">Check All</button>
+        <div id="csv-progress" class="hidden" style="margin-top:16px;">
+          <div class="progress-bar"><div class="progress-fill" id="csv-progress-fill" style="width:0%;"></div></div>
+          <div class="progress-stats">
+            <span><b id="csv-progress-pct">0%</b></span>
+            <span><span id="csv-progress-count">0 / 0</span> completed</span>
+            <span>Successful: <b id="csv-progress-ok">0</b></span>
+            <span>Unavailable: <b id="csv-progress-no">0</b></span>
+            <span>Errors: <b id="csv-progress-err">0</b></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card hidden" id="csv-results-card">
+        <div class="toolbar">
+          <input type="text" id="csv-search" placeholder="Search ASIN / PIN / product" />
+          <select id="csv-filter-status">
+            <option value="">All statuses</option>
+            <option value="success">Success</option>
+            <option value="not_deliverable">Not Deliverable</option>
+            <option value="unknown">Unknown</option>
+            <option value="error">Error</option>
+          </select>
+          <input type="text" id="csv-filter-pin" placeholder="Filter by PIN" />
+          <div class="spacer"></div>
+          <button class="btn" id="csv-export-btn">Export Excel</button>
+        </div>
+        <div class="table-wrap"><table id="csv-results-table"></table></div>
+        <div class="pagination" id="csv-pagination"></div>
+      </div>
+    </div>
+
+    <!-- TAB 2: ASIN -> many PINs -->
+    <div id="tab-asinpins" class="hidden">
+      <div class="card">
+        <div class="form-row">
+          <div class="field" style="max-width:260px;">
+            <label>ASIN</label>
+            <input type="text" id="ap-asin" placeholder="B0XXXXXXXXXX" maxlength="10" />
+          </div>
+          <div class="field" style="max-width:120px;">
+            <label>Quantity</label>
+            <input type="number" id="ap-qty" value="1" min="1" max="999" />
+          </div>
+        </div>
+        <div class="field">
+          <label>PIN Codes (one per line)</label>
+          <textarea id="ap-pins" placeholder="380001&#10;110001&#10;400001"></textarea>
+        </div>
+        <button class="btn btn-primary" id="ap-check-btn">Check All PINs</button>
+      </div>
+
+      <div class="card hidden" id="ap-progress-card">
+        <div class="progress-bar"><div class="progress-fill" id="ap-progress-fill" style="width:0%;"></div></div>
+        <div class="progress-stats">
+          <span><b id="ap-progress-pct">0%</b></span>
+          <span><span id="ap-progress-count">0 / 0</span> completed</span>
+        </div>
+      </div>
+
+      <div class="card hidden" id="ap-summary-card">
+        <div class="grid grid-4" id="ap-summary-grid"></div>
+      </div>
+
+      <div class="card hidden" id="ap-results-card">
+        <div class="toolbar">
+          <div class="spacer"></div>
+          <button class="btn" id="ap-export-btn">Export Excel</button>
+        </div>
+        <div class="table-wrap"><table id="ap-results-table"></table></div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="toast-root"></div>
+<script src="js/app.js"></script>
+<script src="js/bulkCheck.js"></script>
+<script>renderSidebar('bulk-check.html');</script>
+</body>
+</html>

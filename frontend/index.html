@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>window.DELIVERY_API_BASE = "http://100.107.158.103:4000";</script>
+<meta charset="UTF-8" />
+<title>Dashboard · Delivery Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="css/style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-sub">Overview of every delivery check run through this tool.</p>
+      </div>
+    </div>
+
+    <div class="grid grid-4" id="stat-cards">
+      <div class="card stat-card"><div class="stat-label">Total Checks</div><div class="stat-value" id="stat-total">—</div></div>
+      <div class="card stat-card"><div class="stat-label">Deliverable</div><div class="stat-value green" id="stat-deliverable">—</div></div>
+      <div class="card stat-card"><div class="stat-label">Not Deliverable</div><div class="stat-value red" id="stat-not-deliverable">—</div></div>
+      <div class="card stat-card"><div class="stat-label">Delivery Unknown</div><div class="stat-value amber" id="stat-unknown">—</div></div>
+    </div>
+
+    <div class="grid grid-3" style="margin-top:16px;">
+      <div class="card stat-card"><div class="stat-label">Average Delivery Days</div><div class="stat-value" id="stat-avg-days">—</div></div>
+      <div class="card" style="grid-column: span 2;">
+        <div class="stat-label" style="margin-bottom:10px;">Deliverability</div>
+        <canvas id="chart-deliverability" height="90"></canvas>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="grid-template-columns: 1fr 1fr; margin-top:16px;">
+      <div class="card">
+        <div class="stat-label" style="margin-bottom:10px;">Delivery Speed Distribution</div>
+        <canvas id="chart-speed" height="140"></canvas>
+      </div>
+      <div class="card">
+        <div class="stat-label" style="margin-bottom:10px;">PIN Performance (fastest avg. days)</div>
+        <div id="pin-performance-table"></div>
+      </div>
+    </div>
+  </main>
+</div>
+<div id="toast-root"></div>
+<script src="js/app.js"></script>
+<script src="js/dashboard.js"></script>
+<script>renderSidebar('index.html');</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>window.DELIVERY_API_BASE = "http://100.107.158.103:4000";</script>
+<meta charset="UTF-8" />
+<title>History · Delivery Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="css/style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="app-shell">
+  <nav class="sidebar" id="sidebar-root"></nav>
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Check History</h1>
+        <p class="page-sub">Every delivery check ever run through this tool.</p>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn" id="export-btn">Export Excel</button>
+        <button class="btn btn-danger" id="clear-btn">Delete All History</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="toolbar">
+        <input type="text" id="search" placeholder="Search ASIN / product / PIN" />
+        <input type="text" id="filter-asin" placeholder="ASIN" />
+        <input type="text" id="filter-pin" placeholder="PIN" />
+        <select id="filter-deliverable">
+          <option value="">All deliverability</option>
+          <option value="yes">Deliverable</option>
+          <option value="no">Not Deliverable</option>
+          <option value="unknown">Unknown</option>
+        </select>
+        <select id="filter-provider">
+          <option value="">All providers</option>
+          <option value="mock">Mock</option>
+          <option value="paapi">Amazon PA-API</option>
+          <option value="thirdparty">Third-Party</option>
+        </select>
+        <div class="spacer"></div>
+      </div>
+      <div class="table-wrap"><table id="history-table"></table></div>
+      <div class="pagination" id="history-pagination"></div>
+    </div>
+  </main>
+</div>
+<div id="toast-root"></div>
+<script src="js/app.js"></script>
+<script src="js/history.js"></script>
+<script>renderSidebar('history.html');</script>
+</body>
+</html>
