@@ -3,7 +3,7 @@
 // Loaded on every page before the page-specific script.
 // ---------------------------------------------------------------
 
-const API_BASE = (window.DELIVERY_API_BASE || 'http://localhost:4000') + '/api';
+const API_BASE = (window.DELIVERY_API_BASE || 'https://delivery-intelligence.onrender.com') + '/api';
 
 const NAV_ITEMS = [
   { href: 'index.html', label: 'Dashboard', icon: '&#9635;' },
